@@ -27,16 +27,19 @@ export const ButtonContainer = styled.button<{
   font-weight: 700;
   margin-top: 10px;
   padding: 0;
+  border: none;
   &.primary {
-    border: 1px solid #1e90ff;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #1e90ff;
     color: #fff;
   }
   &.border-primary {
-    border: 2px solid #1e90ff;
     border-radius: 5px;
     background-color: #fff;
     color: #1e90ff;
+  }
+  &:disabled {
+    background-color: #a9a9a9;
+    color: #fff;
   }
 `;

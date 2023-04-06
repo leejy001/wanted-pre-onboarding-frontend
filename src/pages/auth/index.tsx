@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { getAccessTokenFromSessionStorage } from "../../utils/accessTokenHandler";
 import Container from "../../components/Container";
 import DefaultButton from "../../components/DefaultButton";
+import { useEffect } from "react";
 
 function Index() {
   const navigate = useNavigate();
@@ -13,6 +14,12 @@ function Index() {
       navigate("/auth/signin");
     }
   };
+
+  useEffect(() => {
+    if (getAccessTokenFromSessionStorage()) {
+      navigate("/todo", { replace: true });
+    }
+  }, [navigate]);
 
   return (
     <Container title={"ToDo"}>

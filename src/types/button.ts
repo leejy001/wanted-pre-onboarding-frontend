@@ -5,5 +5,6 @@ export interface ButtonType {
   fontSize: number;
   width: number;
   height: number;
+  disabled?: boolean;
   onClick?: () => void;
 }

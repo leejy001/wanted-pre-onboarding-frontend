@@ -7,7 +7,7 @@ import Todo from "./pages/todo";
 
 function App() {
   const defaultProtectedRouteProps: Omit<PrivateRouteProps, "outlet"> = {
-    authenticationPath: "/signin"
+    authenticationPath: "/auth"
   };
 
   return (
