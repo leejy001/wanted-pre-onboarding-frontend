@@ -11,5 +11,18 @@ export const getTodosApi = async (): Promise<TodosResult> => {
     return { status: "success", todos: todosResponseData };
   }
 
-  return { status: "success", todos: [] };
+  return { status: "fail", todos: [] };
+};
+
+export const createTodoApi = async (todo: string): Promise<string> => {
+  const todosRes = await fetchClient("todos", {
+    method: "POST",
+    body: JSON.stringify({ todo })
+  });
+
+  if (todosRes.ok) {
+    return "success";
+  }
+
+  return "fail";
 };

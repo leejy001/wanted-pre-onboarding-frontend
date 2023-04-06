@@ -25,7 +25,7 @@ export const ButtonContainer = styled.button<{
   height: ${({ height }) => height}px;
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: 700;
-  margin-top: 10px;
+  flex-shrink: 0;
   padding: 0;
   border: none;
   &.primary {

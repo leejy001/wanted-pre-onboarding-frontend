@@ -3,7 +3,8 @@ import styled from "styled-components";
 interface InputProps {
   title: string;
   type: string;
-  name: string;
+  name?: string;
+  defaultValue?: string;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
   testid: string;
@@ -13,6 +14,7 @@ function Input({
   title,
   type,
   name,
+  defaultValue,
   handleChange,
   placeholder,
   testid
@@ -23,6 +25,7 @@ function Input({
       <InputBody
         type={type}
         name={name}
+        defaultValue={defaultValue}
         onChange={handleChange}
         placeholder={placeholder}
         autoComplete="false"
