@@ -7,14 +7,6 @@ import { useEffect } from "react";
 function Index() {
   const navigate = useNavigate();
 
-  const handleSignIn = () => {
-    if (getAccessTokenFromSessionStorage()) {
-      navigate("/todo");
-    } else {
-      navigate("/auth/signin");
-    }
-  };
-
   useEffect(() => {
     if (getAccessTokenFromSessionStorage()) {
       navigate("/todo", { replace: true });
@@ -28,7 +20,7 @@ function Index() {
         className="primary"
         width={200}
         height={40}
-        onClick={handleSignIn}
+        onClick={() => navigate("/auth/signin")}
       />
       <DefaultButton
         name="Sign Up"
