@@ -1,12 +1,12 @@
-import { getAccessTokenFromSessionStorage } from "../utils/accessTokenHandler";
+import { getAccessTokenFromLocalStorage } from "../utils/accessTokenHandler";
 
-const baseUrl = `${process.env.REACT_APP_BASE_URL}`;
+const baseUrl = "https://www.pre-onboarding-selection-task.shop/";
 
 export const fetchClient = async (
   url: string,
   options: RequestInit
 ): Promise<Response> => {
-  const accessToken = getAccessTokenFromSessionStorage();
+  const accessToken = getAccessTokenFromLocalStorage();
   if (accessToken) {
     const newOptions = {
       ...options,

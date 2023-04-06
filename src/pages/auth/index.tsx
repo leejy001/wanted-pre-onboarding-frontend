@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { getAccessTokenFromSessionStorage } from "../../utils/accessTokenHandler";
+import { getAccessTokenFromLocalStorage } from "../../utils/accessTokenHandler";
 import Container from "../../components/Container";
 import DefaultButton from "../../components/DefaultButton";
 import { useEffect } from "react";
@@ -9,7 +9,7 @@ function Index() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (getAccessTokenFromSessionStorage()) {
+    if (getAccessTokenFromLocalStorage()) {
       navigate("/todo", { replace: true });
     }
   }, [navigate]);
@@ -22,14 +22,14 @@ function Index() {
           className="primary"
           width={200}
           height={40}
-          onClick={() => navigate("/auth/signin")}
+          onClick={() => navigate("/signin")}
         />
         <DefaultButton
           name="Sign Up"
           className="primary"
           width={200}
           height={40}
-          onClick={() => navigate("/auth/signup")}
+          onClick={() => navigate("/signup")}
         />
       </ButtonWrapper>
     </Container>

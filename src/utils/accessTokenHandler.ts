@@ -1,13 +1,13 @@
 const LOCALSTORAGE_TOKEN_KEY = "accesstoken";
 
-export const saveAccessTokenToSessionStorage = (accessToken: string) => {
-  sessionStorage.setItem(LOCALSTORAGE_TOKEN_KEY, accessToken);
+export const saveAccessTokenToLocalStorage = (accessToken: string) => {
+  localStorage.setItem(LOCALSTORAGE_TOKEN_KEY, accessToken);
 };
 
-export const getAccessTokenFromSessionStorage = (): string | null => {
-  return sessionStorage.getItem(LOCALSTORAGE_TOKEN_KEY) || null;
+export const getAccessTokenFromLocalStorage = (): string | null => {
+  return localStorage.getItem(LOCALSTORAGE_TOKEN_KEY) || null;
 };
 
-export const removeAccessTokenFromSessionStorage = () => {
-  sessionStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
+export const removeAccessTokenFromLocalStorage = () => {
+  localStorage.removeItem(LOCALSTORAGE_TOKEN_KEY);
 };

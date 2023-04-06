@@ -17,6 +17,7 @@ function TodoItem({ todoInfo, isChange, setIsChange }: ParentProps) {
 
   const handleToggleEdit = () => {
     setIsEdit(!isEdit);
+    setTodo(todoInfo.todo);
   };
 
   const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {

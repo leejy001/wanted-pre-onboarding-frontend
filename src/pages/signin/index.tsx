@@ -6,7 +6,7 @@ import Input from "../../components/Input";
 import { useNavigate } from "react-router-dom";
 import DefaultButton from "../../components/DefaultButton";
 import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
-import { getAccessTokenFromSessionStorage } from "../../utils/accessTokenHandler";
+import { getAccessTokenFromLocalStorage } from "../../utils/accessTokenHandler";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ function SignIn() {
   };
 
   useEffect(() => {
-    if (getAccessTokenFromSessionStorage()) {
+    if (getAccessTokenFromLocalStorage()) {
       navigate("/todo", { replace: true });
     }
   }, [navigate]);
@@ -43,6 +43,9 @@ function SignIn() {
 
   return (
     <Container title={"로그인"}>
+      <SignUpMove onClick={() => navigate("/signup", { replace: true })}>
+        새로 회원가입 하실건가요?
+      </SignUpMove>
       <SignInForm onSubmit={signInSubmitHandler}>
         <Input
           title="이메일"
@@ -77,6 +80,7 @@ function SignIn() {
           </SignInError>
         )}
       </SignInForm>
+      <MoveBackButton onClick={() => navigate(-1)}>뒤로</MoveBackButton>
     </Container>
   );
 }
@@ -91,9 +95,27 @@ const SignInForm = styled.form`
   gap: 15px;
 `;
 
+const SignUpMove = styled.p`
+  margin-bottom: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e90ff;
+  cursor: pointer;
+`;
+
 const SignInError = styled.p`
   color: red;
   text-align: center;
   font-size: 14px;
   font-weight: 600;
+`;
+
+const MoveBackButton = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e90ff;
+  cursor: pointer;
 `;

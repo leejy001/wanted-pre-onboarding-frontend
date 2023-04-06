@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { getAccessTokenFromSessionStorage } from "./accessTokenHandler";
+import { getAccessTokenFromLocalStorage } from "./accessTokenHandler";
 
 export interface PrivateRouteProps {
   authenticationPath: string;
@@ -10,7 +10,7 @@ export default function PrivateRoute({
   authenticationPath,
   outlet
 }: PrivateRouteProps) {
-  if (getAccessTokenFromSessionStorage()) {
+  if (getAccessTokenFromLocalStorage()) {
     return outlet;
   }
   return <Navigate to={{ pathname: authenticationPath }} />;

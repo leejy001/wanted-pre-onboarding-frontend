@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { removeAccessTokenFromSessionStorage } from "../../../utils/accessTokenHandler";
+import { removeAccessTokenFromLocalStorage } from "../../../utils/accessTokenHandler";
 import { useNavigate } from "react-router-dom";
 
 function LogoutButton() {
   const navigate = useNavigate();
 
   const logoutClick = () => {
-    removeAccessTokenFromSessionStorage();
-    navigate("/auth");
+    removeAccessTokenFromLocalStorage();
+    navigate("/");
   };
 
   return (

@@ -1,5 +1,5 @@
 import { SignInRequest, SignUpRequest } from "../types/sign";
-import { saveAccessTokenToSessionStorage } from "../utils/accessTokenHandler";
+import { saveAccessTokenToLocalStorage } from "../utils/accessTokenHandler";
 import { fetchClient } from "./fetchClient";
 
 export const signinApi = async (args: SignInRequest): Promise<string> => {
@@ -10,7 +10,7 @@ export const signinApi = async (args: SignInRequest): Promise<string> => {
 
   if (signInRes.ok) {
     const signinResponseData = await signInRes.json();
-    saveAccessTokenToSessionStorage(signinResponseData.access_token);
+    saveAccessTokenToLocalStorage(signinResponseData.access_token);
     return "success";
   }
 

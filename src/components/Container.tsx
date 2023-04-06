@@ -17,6 +17,7 @@ function Container({ title, children }: React.PropsWithChildren<PropsType>) {
 export default Container;
 
 export const MainContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;

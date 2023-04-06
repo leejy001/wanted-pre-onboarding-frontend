@@ -7,22 +7,22 @@ import Todo from "./pages/todo";
 
 function App() {
   const defaultProtectedRouteProps: Omit<PrivateRouteProps, "outlet"> = {
-    authenticationPath: "/auth"
+    authenticationPath: "/signin"
   };
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate replace to="/auth" />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/auth/signin" element={<SignIn />} />
-        <Route path="/auth/signup" element={<SignUp />} />
+        <Route path="/" element={<Auth />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route
           path="/todo"
           element={
             <PrivateRoute {...defaultProtectedRouteProps} outlet={<Todo />} />
           }
         />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
