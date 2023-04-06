@@ -27,7 +27,7 @@ function SignUp() {
   ) => {
     event.preventDefault();
     const result = await signupApi(formData);
-    if (result === "success") navigate("/signin");
+    if (result === "success") navigate("/signin", { replace: true });
     else if (result === "fail") setError(true);
   };
 
