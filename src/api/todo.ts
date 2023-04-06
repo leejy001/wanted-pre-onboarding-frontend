@@ -26,3 +26,20 @@ export const createTodoApi = async (todo: string): Promise<string> => {
 
   return "fail";
 };
+
+export const updateTodoApi = async (
+  id: number,
+  isCompleted: boolean,
+  todo: string
+): Promise<string> => {
+  const todosRes = await fetchClient(`todos/${id}`, {
+    method: "PUT",
+    body: JSON.stringify({ todo, isCompleted })
+  });
+
+  if (todosRes.ok) {
+    return "success";
+  }
+
+  return "fail";
+};

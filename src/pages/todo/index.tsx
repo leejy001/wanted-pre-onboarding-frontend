@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import LogoutButton from "./components/LogoutButton";
-import Today from "./components/Today";
-import TodoList from "./components/TodoList";
 import { useEffect, useState } from "react";
 import { TodoInfo } from "../../types/todo";
 import { getTodosApi } from "../../api/todo";
+import LogoutButton from "./components/LogoutButton";
+import Today from "./components/Today";
 import CreateTodo from "./components/CreateTodo";
+import TodoItem from "./components/TodoItem";
 
 function Todo() {
   const [todos, setTodos] = useState<TodoInfo[]>([]);
@@ -28,7 +28,11 @@ function Todo() {
           <Today />
         </TodoContainerHeader>
         <CreateTodo isChange={isChange} setIsChange={setIsChange} />
-        <TodoList todos={todos} />
+        <TodoListWrapper>
+          {todos.map((item) => (
+            <TodoItem key={item.id} todoInfo={item} />
+          ))}
+        </TodoListWrapper>
       </TodoWrapper>
     </TodoContainer>
   );
@@ -62,4 +66,11 @@ export const TodoContainerHeader = styled.div`
     font-size: 16px;
     font-weight: 700;
   }
+`;
+
+export const TodoListWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
 `;
