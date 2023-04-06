@@ -15,12 +15,12 @@ export const getTodosApi = async (): Promise<TodosResult> => {
 };
 
 export const createTodoApi = async (todo: string): Promise<string> => {
-  const todosRes = await fetchClient("todos", {
+  const createRes = await fetchClient("todos", {
     method: "POST",
     body: JSON.stringify({ todo })
   });
 
-  if (todosRes.ok) {
+  if (createRes.ok) {
     return "success";
   }
 
@@ -32,12 +32,24 @@ export const updateTodoApi = async (
   isCompleted: boolean,
   todo: string
 ): Promise<string> => {
-  const todosRes = await fetchClient(`todos/${id}`, {
+  const updateRes = await fetchClient(`todos/${id}`, {
     method: "PUT",
     body: JSON.stringify({ todo, isCompleted })
   });
 
-  if (todosRes.ok) {
+  if (updateRes.ok) {
+    return "success";
+  }
+
+  return "fail";
+};
+
+export const deleteTodoApi = async (id: number): Promise<string> => {
+  const deleteRes = await fetchClient(`todos/${id}`, {
+    method: "DELETE"
+  });
+
+  if (deleteRes.ok) {
     return "success";
   }
 

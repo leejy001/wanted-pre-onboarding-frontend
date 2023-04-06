@@ -30,7 +30,12 @@ function Todo() {
         <CreateTodo isChange={isChange} setIsChange={setIsChange} />
         <TodoListWrapper>
           {todos.map((item) => (
-            <TodoItem key={item.id} todoInfo={item} />
+            <TodoItem
+              key={item.id}
+              todoInfo={item}
+              isChange={isChange}
+              setIsChange={setIsChange}
+            />
           ))}
         </TodoListWrapper>
       </TodoWrapper>

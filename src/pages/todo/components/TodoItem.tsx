@@ -1,14 +1,16 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { TodoInfo } from "../../../types/todo";
 import DefaultButton from "../../../components/DefaultButton";
-import { updateTodoApi } from "../../../api/todo";
-import { useCallback, useEffect, useState } from "react";
+import { deleteTodoApi, updateTodoApi } from "../../../api/todo";
 
 interface ParentProps {
   todoInfo: TodoInfo;
+  isChange: boolean;
+  setIsChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function TodoItem({ todoInfo }: ParentProps) {
+function TodoItem({ todoInfo, isChange, setIsChange }: ParentProps) {
   const [todo, setTodo] = useState(todoInfo.todo);
   const [isCompleted, setIsCompleted] = useState(todoInfo.isCompleted);
   const [isEdit, setIsEdit] = useState(false);
@@ -26,12 +28,15 @@ function TodoItem({ todoInfo }: ParentProps) {
     setTodo(e.target.value);
   };
 
-  const editTodoClickHandler = useCallback(async () => {
+  const editTodoClickHandler = async () => {
     const result = await updateTodoApi(todoInfo.id, isCompleted, todo);
-    if (result === "success") {
-      setIsEdit(false);
-    }
-  }, [isCompleted, todo, todoInfo.id]);
+    if (result === "success") setIsEdit(false);
+  };
+
+  const deleteTodoClickHandler = async () => {
+    const result = await deleteTodoApi(todoInfo.id);
+    if (result === "success") setIsChange(!isChange);
+  };
 
   return (
     <TodoItemContainer>
@@ -61,7 +66,7 @@ function TodoItem({ todoInfo }: ParentProps) {
             fontSize={16}
             type="button"
             onClick={editTodoClickHandler}
-            data-testid="modify-button"
+            data-testid="submit-button"
           />
           <DefaultButton
             name="취소"
@@ -71,7 +76,7 @@ function TodoItem({ todoInfo }: ParentProps) {
             fontSize={16}
             type="button"
             onClick={handleToggleEdit}
-            data-testid="delete-button"
+            data-testid="cancel-button"
           />
         </ButtonWrapper>
       ) : (
@@ -93,6 +98,7 @@ function TodoItem({ todoInfo }: ParentProps) {
             height={30}
             fontSize={16}
             type="button"
+            onClick={deleteTodoClickHandler}
             data-testid="delete-button"
           />
         </ButtonWrapper>
@@ -110,6 +116,13 @@ export const TodoItemContainer = styled.li`
   background-color: #add8e6;
   border-radius: 5px;
   padding: 10px 5px;
+  label input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  label span {
+    font-size: 16px;
+    font-weight: 600;
+  }
 `;
 
 export const ButtonWrapper = styled.div`

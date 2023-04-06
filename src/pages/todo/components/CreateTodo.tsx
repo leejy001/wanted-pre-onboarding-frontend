@@ -30,7 +30,7 @@ function CreateTodo({ isChange, setIsChange }: ParentProp) {
         type="text"
         value={todo}
         onChange={handleInputChange}
-        placeholder="할일을 적어주세요"
+        placeholder="할일을 적어주세요."
         data-testid="new-todo-input"
       />
       <DefaultButton
