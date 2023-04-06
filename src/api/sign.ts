@@ -8,9 +8,8 @@ export const signinApi = async (args: SignInRequest): Promise<string> => {
     body: JSON.stringify(args)
   });
 
-  const signinResponseData = await signInRes.json();
-
   if (signInRes.ok) {
+    const signinResponseData = await signInRes.json();
     saveAccessTokenToSessionStorage(signinResponseData.access_token);
     return "success";
   }
