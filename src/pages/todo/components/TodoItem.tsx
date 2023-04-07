@@ -31,7 +31,10 @@ function TodoItem({ todoInfo, isChange, setIsChange }: ParentProps) {
 
   const editTodoClickHandler = async () => {
     const result = await updateTodoApi(todoInfo.id, isCompleted, todo);
-    if (result === "success") setIsEdit(false);
+    if (result === "success") {
+      setIsEdit(false);
+      setIsChange(!isChange);
+    }
   };
 
   const deleteTodoClickHandler = async () => {
