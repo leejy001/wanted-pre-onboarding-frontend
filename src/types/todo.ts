@@ -1,4 +1,7 @@
-export interface CreateTodosRequest {}
+export interface CreateTodoTypes {
+  isChange: boolean;
+  setIsChange: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export interface TodoInfo {
   id: number;
