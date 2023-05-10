@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import DefaultButton from "../../../components/DefaultButton";
 import { createTodoApi } from "../../../api/todo";
+import { CreateTodoTypes } from "../../../types/todo";
 
-interface ParentProp {
-  isChange: boolean;
-  setIsChange: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function CreateTodo({ isChange, setIsChange }: ParentProp) {
+function CreateTodo({ isChange, setIsChange }: CreateTodoTypes) {
   const [todo, setTodo] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

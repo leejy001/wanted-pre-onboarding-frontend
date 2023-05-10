@@ -1,9 +1,10 @@
+import { URL } from "../constants";
 import { SignInRequest, SignUpRequest } from "../types/sign";
 import { saveAccessTokenToLocalStorage } from "../utils/accessTokenHandler";
 import { fetchClient } from "./fetchClient";
 
 export const signinApi = async (args: SignInRequest): Promise<string> => {
-  const signInRes = await fetchClient("auth/signin", {
+  const signInRes = await fetchClient(URL.SIGNIN_URL, {
     method: "POST",
     body: JSON.stringify(args)
   });
@@ -18,7 +19,7 @@ export const signinApi = async (args: SignInRequest): Promise<string> => {
 };
 
 export const signupApi = async (args: SignUpRequest): Promise<string> => {
-  const signUpRes = await fetchClient("auth/signup", {
+  const signUpRes = await fetchClient(URL.SIGNUP_URL, {
     method: "POST",
     body: JSON.stringify(args)
   });

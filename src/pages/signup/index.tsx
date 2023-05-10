@@ -12,23 +12,25 @@ function SignUp() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const validateForm = (email: string, password: string) => {
-    setIsFormValid(isEmailValidate(email) && isPasswordValidate(password));
+    return isEmailValidate(email) && isPasswordValidate(password);
   };
+
+  const isValid = validateForm(formData.email, formData.password);
 
   const signUpSubmitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
     const result = await signupApi(formData);
-    if (result === "success") navigate("/signin", { replace: true });
-    else if (result === "fail") setError(true);
+    return result === "success"
+      ? navigate("/signin", { replace: true })
+      : setError(true);
   };
 
   useEffect(() => {
@@ -36,10 +38,6 @@ function SignUp() {
       navigate("/todo", { replace: true });
     }
   }, [navigate]);
-
-  useEffect(() => {
-    validateForm(formData.email, formData.password);
-  }, [formData]);
 
   return (
     <Container title={"회원가입"}>
@@ -70,7 +68,7 @@ function SignUp() {
           height={40}
           type="submit"
           data-testid="signup-button"
-          disabled={!isFormValid}
+          disabled={!isValid}
         />
         {error && (
           <SignUpError>

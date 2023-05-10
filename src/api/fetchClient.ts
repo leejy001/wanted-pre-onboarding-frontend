@@ -1,6 +1,5 @@
+import { URL } from "../constants";
 import { getAccessTokenFromLocalStorage } from "../utils/accessTokenHandler";
-
-const baseUrl = "https://www.pre-onboarding-selection-task.shop/";
 
 export const fetchClient = async (
   url: string,
@@ -15,7 +14,7 @@ export const fetchClient = async (
         Authorization: `Bearer ${accessToken}`
       }
     };
-    return fetch(`${baseUrl}${url}`, newOptions);
+    return fetch(`${URL.BASE_URL}${url}`, newOptions);
   } else {
     const newOptions = {
       ...options,
@@ -23,6 +22,6 @@ export const fetchClient = async (
         "Content-Type": "application/json"
       }
     };
-    return fetch(`${baseUrl}${url}`, newOptions);
+    return fetch(`${URL.BASE_URL}${url}`, newOptions);
   }
 };

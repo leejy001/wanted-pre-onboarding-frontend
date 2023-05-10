@@ -1,9 +1,9 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { signinApi } from "../../api/sign";
-import Container from "../../components/Container";
-import { useEffect, useState } from "react";
 import Input from "../../components/Input";
-import { useNavigate } from "react-router-dom";
+import Container from "../../components/Container";
 import DefaultButton from "../../components/DefaultButton";
 import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
 import { getAccessTokenFromLocalStorage } from "../../utils/accessTokenHandler";
@@ -12,23 +12,23 @@ function SignIn() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const validateForm = (email: string, password: string) => {
-    setIsFormValid(isEmailValidate(email) && isPasswordValidate(password));
+    return isEmailValidate(email) && isPasswordValidate(password);
   };
+
+  const isValid = validateForm(formData.email, formData.password);
 
   const signInSubmitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
     const result = await signinApi(formData);
-    if (result === "success") navigate("/todo");
-    else if (result === "fail") setError(true);
+    return result === "success" ? navigate("/todo") : setError(true);
   };
 
   useEffect(() => {
@@ -36,10 +36,6 @@ function SignIn() {
       navigate("/todo", { replace: true });
     }
   }, [navigate]);
-
-  useEffect(() => {
-    validateForm(formData.email, formData.password);
-  }, [formData]);
 
   return (
     <Container title={"로그인"}>
@@ -70,7 +66,7 @@ function SignIn() {
           height={40}
           type="submit"
           data-testid="signin-button"
-          disabled={!isFormValid}
+          disabled={!isValid}
         />
         {error && (
           <SignInError>
