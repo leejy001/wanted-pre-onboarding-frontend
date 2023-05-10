@@ -1,8 +1,9 @@
+import { URL } from "../constants";
 import { TodosResult } from "../types/todo";
 import { fetchClient } from "./fetchClient";
 
 export const getTodosApi = async (): Promise<TodosResult> => {
-  const todosRes = await fetchClient("todos", {
+  const todosRes = await fetchClient(URL.TODO_URL, {
     method: "GET"
   });
 
@@ -15,7 +16,7 @@ export const getTodosApi = async (): Promise<TodosResult> => {
 };
 
 export const createTodoApi = async (todo: string): Promise<string> => {
-  const createRes = await fetchClient("todos", {
+  const createRes = await fetchClient(URL.TODO_URL, {
     method: "POST",
     body: JSON.stringify({ todo })
   });
@@ -32,7 +33,7 @@ export const updateTodoApi = async (
   isCompleted: boolean,
   todo: string
 ): Promise<string> => {
-  const updateRes = await fetchClient(`todos/${id}`, {
+  const updateRes = await fetchClient(`${URL.TODO_URL}/${id}`, {
     method: "PUT",
     body: JSON.stringify({ todo, isCompleted })
   });
@@ -45,7 +46,7 @@ export const updateTodoApi = async (
 };
 
 export const deleteTodoApi = async (id: number): Promise<string> => {
-  const deleteRes = await fetchClient(`todos/${id}`, {
+  const deleteRes = await fetchClient(`${URL.TODO_URL}/${id}`, {
     method: "DELETE"
   });
 
