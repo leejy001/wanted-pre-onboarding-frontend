@@ -1,16 +1,10 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { TodoInfo } from "../../../types/todo";
+import { TodoItemTypes } from "../../../types/todo";
 import DefaultButton from "../../../components/DefaultButton";
 import { deleteTodoApi, updateTodoApi } from "../../../api/todo";
 
-interface ParentProps {
-  todoInfo: TodoInfo;
-  isChange: boolean;
-  setIsChange: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-function TodoItem({ todoInfo, isChange, setIsChange }: ParentProps) {
+function TodoItem({ todoInfo, isChange, setIsChange }: TodoItemTypes) {
   const [todo, setTodo] = useState(todoInfo.todo);
   const [isCompleted, setIsCompleted] = useState(todoInfo.isCompleted);
   const [isEdit, setIsEdit] = useState(false);
