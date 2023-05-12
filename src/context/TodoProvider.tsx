@@ -26,8 +26,21 @@ export function TodoProvider({
     return newTodo.status;
   };
 
+  const update = async (
+    id: number,
+    isCompleted: boolean,
+    todo: string
+  ): Promise<string> => {
+    const result = await todoApi.update(id, isCompleted, todo);
+    if (result === "success") {
+      const todo = await todoApi.get();
+      if (todo.status === "success") setTodos(todo.todos);
+    }
+    return result;
+  };
+
   return (
-    <TodoContext.Provider value={{ todos, create }}>
+    <TodoContext.Provider value={{ todos, create, update }}>
       {children}
     </TodoContext.Provider>
   );

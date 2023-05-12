@@ -2,7 +2,7 @@ import { AuthApi } from "../api/authApi";
 import { TodoApi } from "../api/todoApi";
 import { LocalTokenRepository } from "../utils/LocalTokenRepository";
 import { SignInRequest, SignUpRequest } from "./sign";
-import { TodoInfo, TodosEditResult } from "./todo";
+import { TodoInfo } from "./todo";
 
 export interface AuthProviderType {
   authApi: AuthApi;
@@ -23,4 +23,5 @@ export interface TodoProviderType {
 export interface TodoContextType {
   todos: TodoInfo[];
   create: (todo: string) => Promise<string>;
+  update: (id: number, isCompleted: boolean, todo: string) => Promise<string>;
 }

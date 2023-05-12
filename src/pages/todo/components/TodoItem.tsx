@@ -5,12 +5,14 @@ import { TodoApi } from "../../../api/todoApi";
 import { HttpClient } from "../../../api/httpClient";
 import { LocalTokenRepository } from "../../../utils/LocalTokenRepository";
 import DefaultButton from "../../../components/DefaultButton";
+import { useTodoState } from "../../../context/TodoProvider";
 
 const localTokenRepository = new LocalTokenRepository();
 const httpClient = new HttpClient(localTokenRepository);
 const todoApi = new TodoApi(httpClient);
 
 function TodoItem({ todoInfo, isChange, setIsChange }: TodoItemTypes) {
+  const { update } = useTodoState();
   const [todo, setTodo] = useState(todoInfo.todo);
   const [isCompleted, setIsCompleted] = useState(todoInfo.isCompleted);
   const [isEdit, setIsEdit] = useState(false);
@@ -21,7 +23,7 @@ function TodoItem({ todoInfo, isChange, setIsChange }: TodoItemTypes) {
   };
 
   const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    todoApi.update(todoInfo.id, event.target.checked, todo);
+    update(todoInfo.id, event.target.checked, todo);
     setIsCompleted(event.target.checked);
   };
 
@@ -30,11 +32,8 @@ function TodoItem({ todoInfo, isChange, setIsChange }: TodoItemTypes) {
   };
 
   const editTodoClickHandler = async () => {
-    const result = await todoApi.update(todoInfo.id, isCompleted, todo);
-    if (result === "success") {
-      setIsEdit(false);
-      setIsChange(!isChange);
-    }
+    const result = await update(todoInfo.id, isCompleted, todo);
+    if (result === "success") setIsEdit(false);
   };
 
   const deleteTodoClickHandler = async () => {
