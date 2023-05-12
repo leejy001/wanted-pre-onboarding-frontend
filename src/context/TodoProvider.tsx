@@ -23,10 +23,6 @@ export function TodoProvider({
     if (result.status === "success") setTodos(result.todos);
   }, [todoApi]);
 
-  useEffect(() => {
-    getTodo();
-  }, [getTodo]);
-
   const create = async (todo: string): Promise<string> => {
     const newTodo = await todoApi.create(todo);
     if (newTodo.todo) setTodos([...todos, newTodo.todo]);
@@ -49,7 +45,7 @@ export function TodoProvider({
   };
 
   return (
-    <TodoContext.Provider value={{ todos, create, update, remove }}>
+    <TodoContext.Provider value={{ todos, getTodo, create, update, remove }}>
       {children}
     </TodoContext.Provider>
   );
