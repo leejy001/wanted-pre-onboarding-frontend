@@ -1,18 +1,13 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { HttpClient } from "../../../api/httpClient";
-import { AuthApi } from "../../../api/authApi";
-import { LocalTokenRepository } from "../../../utils/LocalTokenRepository";
-
-const localTokenRepository = new LocalTokenRepository();
-const httpClient = new HttpClient(localTokenRepository);
-const authApi = new AuthApi(httpClient, localTokenRepository);
+import { useAuthState } from "../../../context/AuthProvider";
 
 function LogoutButton() {
   const navigate = useNavigate();
+  const { logout } = useAuthState();
 
   const logoutClick = () => {
-    authApi.logout();
+    logout();
     navigate("/");
   };
 

@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AuthApi } from "../../api/authApi";
-import { HttpClient } from "../../api/httpClient";
 import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
-import { LocalTokenRepository } from "../../utils/LocalTokenRepository";
+import { useAuthState } from "../../context/AuthProvider";
 import Container from "../../components/Container";
 import Input from "../../components/Input";
 import DefaultButton from "../../components/DefaultButton";
 
-const localTokenRepository = new LocalTokenRepository();
-const httpClient = new HttpClient(localTokenRepository);
-const authApi = new AuthApi(httpClient, localTokenRepository);
-
 function SignUp() {
   const navigate = useNavigate();
+  const { signup, isAuth } = useAuthState();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(false);
 
@@ -32,17 +27,17 @@ function SignUp() {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    const result = await authApi.signup(formData);
+    const result = await signup(formData);
     return result === "success"
       ? navigate("/signin", { replace: true })
       : setError(true);
   };
 
   useEffect(() => {
-    if (localTokenRepository.get()) {
+    if (isAuth) {
       navigate("/todo", { replace: true });
     }
-  }, [navigate]);
+  }, [isAuth, navigate]);
 
   return (
     <Container title={"회원가입"}>
