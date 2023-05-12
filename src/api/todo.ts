@@ -1,9 +1,13 @@
 import { URL } from "../constants";
 import { TodosResult } from "../types/todo";
-import { fetchClient } from "./fetchClient";
+import { LocalTokenRepository } from "../utils/LocalTokenRepository";
+import { HttpClient } from "./httpClient";
+
+const localTokenRepository = new LocalTokenRepository();
+const httpClient = new HttpClient(localTokenRepository);
 
 export const getTodosApi = async (): Promise<TodosResult> => {
-  const todosRes = await fetchClient(URL.TODO_URL, {
+  const todosRes = await httpClient.fetch(URL.TODO_URL, {
     method: "GET"
   });
 
@@ -16,7 +20,7 @@ export const getTodosApi = async (): Promise<TodosResult> => {
 };
 
 export const createTodoApi = async (todo: string): Promise<string> => {
-  const createRes = await fetchClient(URL.TODO_URL, {
+  const createRes = await httpClient.fetch(URL.TODO_URL, {
     method: "POST",
     body: JSON.stringify({ todo })
   });
@@ -33,7 +37,7 @@ export const updateTodoApi = async (
   isCompleted: boolean,
   todo: string
 ): Promise<string> => {
-  const updateRes = await fetchClient(`${URL.TODO_URL}/${id}`, {
+  const updateRes = await httpClient.fetch(`${URL.TODO_URL}/${id}`, {
     method: "PUT",
     body: JSON.stringify({ todo, isCompleted })
   });
@@ -46,7 +50,7 @@ export const updateTodoApi = async (
 };
 
 export const deleteTodoApi = async (id: number): Promise<string> => {
-  const deleteRes = await fetchClient(`${URL.TODO_URL}/${id}`, {
+  const deleteRes = await httpClient.fetch(`${URL.TODO_URL}/${id}`, {
     method: "DELETE"
   });
 

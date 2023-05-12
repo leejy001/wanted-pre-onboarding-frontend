@@ -1,12 +1,13 @@
 import { URL } from "../constants";
 import { SignInRequest, SignUpRequest } from "../types/sign";
 import { LocalTokenRepository } from "../utils/LocalTokenRepository";
-import { fetchClient } from "./fetchClient";
+import { HttpClient } from "./httpClient";
 
 const localTokenRepository = new LocalTokenRepository();
+const httpClient = new HttpClient(localTokenRepository);
 
 export const signinApi = async (args: SignInRequest): Promise<string> => {
-  const signInRes = await fetchClient(URL.SIGNIN_URL, {
+  const signInRes = await httpClient.fetch(URL.SIGNIN_URL, {
     method: "POST",
     body: JSON.stringify(args)
   });
@@ -21,7 +22,7 @@ export const signinApi = async (args: SignInRequest): Promise<string> => {
 };
 
 export const signupApi = async (args: SignUpRequest): Promise<string> => {
-  const signUpRes = await fetchClient(URL.SIGNUP_URL, {
+  const signUpRes = await httpClient.fetch(URL.SIGNUP_URL, {
     method: "POST",
     body: JSON.stringify(args)
   });
