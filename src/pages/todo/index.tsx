@@ -1,18 +1,24 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { TodoInfo } from "../../types/todo";
-import { getTodosApi } from "../../api/todo";
+import { TodoApi } from "../../api/todoApi";
+import { HttpClient } from "../../api/httpClient";
+import { LocalTokenRepository } from "../../utils/LocalTokenRepository";
 import LogoutButton from "./components/LogoutButton";
 import Today from "./components/Today";
 import CreateTodo from "./components/CreateTodo";
 import TodoItem from "./components/TodoItem";
+
+const localTokenRepository = new LocalTokenRepository();
+const httpClient = new HttpClient(localTokenRepository);
+const todoApi = new TodoApi(httpClient);
 
 function Todo() {
   const [todos, setTodos] = useState<TodoInfo[]>([]);
   const [isChange, setIsChange] = useState<boolean>(false);
 
   const getTodosInfoHandler = async () => {
-    const result = await getTodosApi();
+    const result = await todoApi.get();
     if (result.status === "success") setTodos(result.todos);
   };
 
