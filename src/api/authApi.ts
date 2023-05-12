@@ -16,13 +16,11 @@ export class AuthApi {
       method: "POST",
       body: JSON.stringify(args)
     });
-
     if (signInRes.ok) {
       const signinResponseData = await signInRes.json();
       this.tokenRepository.save(signinResponseData.access_token);
       return "success";
     }
-
     return "fail";
   }
 
@@ -31,11 +29,9 @@ export class AuthApi {
       method: "POST",
       body: JSON.stringify(args)
     });
-
     if (signUpRes.ok) {
       return "success";
     }
-
     return "fail";
   }
 
