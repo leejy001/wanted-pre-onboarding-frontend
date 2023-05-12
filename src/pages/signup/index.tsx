@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Container from "../../components/Container";
-import { signupApi } from "../../api/sign";
-import Input from "../../components/Input";
-import styled from "styled-components";
-import DefaultButton from "../../components/DefaultButton";
-import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
 import { useNavigate } from "react-router-dom";
-import { getAccessTokenFromLocalStorage } from "../../utils/accessTokenHandler";
+import styled from "styled-components";
+import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
+import { useAuthState } from "../../context/AuthProvider";
+import Container from "../../components/Container";
+import Input from "../../components/Input";
+import DefaultButton from "../../components/DefaultButton";
 
 function SignUp() {
   const navigate = useNavigate();
+  const { signup, isAuth } = useAuthState();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(false);
 
@@ -27,17 +27,17 @@ function SignUp() {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    const result = await signupApi(formData);
+    const result = await signup(formData);
     return result === "success"
       ? navigate("/signin", { replace: true })
       : setError(true);
   };
 
   useEffect(() => {
-    if (getAccessTokenFromLocalStorage()) {
+    if (isAuth) {
       navigate("/todo", { replace: true });
     }
-  }, [navigate]);
+  }, [isAuth, navigate]);
 
   return (
     <Container title={"회원가입"}>

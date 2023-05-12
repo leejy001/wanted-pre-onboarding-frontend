@@ -1,15 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { getAccessTokenFromLocalStorage } from "../../utils/accessTokenHandler";
+import { LocalTokenRepository } from "../../utils/LocalTokenRepository";
 import Container from "../../components/Container";
 import DefaultButton from "../../components/DefaultButton";
 import { useEffect } from "react";
 import styled from "styled-components";
 
+const localTokenRepository = new LocalTokenRepository();
+
 function Index() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (getAccessTokenFromLocalStorage()) {
+    if (localTokenRepository.get()) {
       navigate("/todo", { replace: true });
     }
   }, [navigate]);

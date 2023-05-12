@@ -1,24 +1,12 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { TodoInfo } from "../../types/todo";
-import { getTodosApi } from "../../api/todo";
+import { useTodoState } from "../../context/TodoProvider";
 import LogoutButton from "./components/LogoutButton";
 import Today from "./components/Today";
 import CreateTodo from "./components/CreateTodo";
 import TodoItem from "./components/TodoItem";
 
 function Todo() {
-  const [todos, setTodos] = useState<TodoInfo[]>([]);
-  const [isChange, setIsChange] = useState<boolean>(false);
-
-  const getTodosInfoHandler = async () => {
-    const result = await getTodosApi();
-    if (result.status === "success") setTodos(result.todos);
-  };
-
-  useEffect(() => {
-    getTodosInfoHandler();
-  }, [isChange]);
+  const { todos } = useTodoState();
 
   return (
     <TodoContainer>
@@ -27,15 +15,10 @@ function Todo() {
         <TodoContainerHeader>
           <Today />
         </TodoContainerHeader>
-        <CreateTodo isChange={isChange} setIsChange={setIsChange} />
+        <CreateTodo />
         <TodoListWrapper>
           {todos.map((item) => (
-            <TodoItem
-              key={item.id}
-              todoInfo={item}
-              isChange={isChange}
-              setIsChange={setIsChange}
-            />
+            <TodoItem key={item.id} todoInfo={item} />
           ))}
         </TodoListWrapper>
       </TodoWrapper>

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useTodoState } from "../../../context/TodoProvider";
 import DefaultButton from "../../../components/DefaultButton";
-import { createTodoApi } from "../../../api/todo";
-import { CreateTodoTypes } from "../../../types/todo";
 
-function CreateTodo({ isChange, setIsChange }: CreateTodoTypes) {
+function CreateTodo() {
   const [todo, setTodo] = useState("");
+  const { create } = useTodoState();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value);
@@ -13,11 +13,8 @@ function CreateTodo({ isChange, setIsChange }: CreateTodoTypes) {
 
   const todoSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const result = await createTodoApi(todo);
-    if (result === "success") {
-      setIsChange(!isChange);
-      setTodo("");
-    }
+    const result = await create(todo);
+    if (result === "success") setTodo("");
   };
 
   return (
