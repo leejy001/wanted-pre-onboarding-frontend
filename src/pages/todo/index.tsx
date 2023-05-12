@@ -1,14 +1,12 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useTodoState } from "../../context/TodoProvider";
 import LogoutButton from "./components/LogoutButton";
 import Today from "./components/Today";
 import CreateTodo from "./components/CreateTodo";
 import TodoItem from "./components/TodoItem";
-import { useTodoState } from "../../context/TodoProvider";
 
 function Todo() {
   const { todos } = useTodoState();
-  const [isChange, setIsChange] = useState<boolean>(false);
 
   return (
     <TodoContainer>
@@ -20,12 +18,7 @@ function Todo() {
         <CreateTodo />
         <TodoListWrapper>
           {todos.map((item) => (
-            <TodoItem
-              key={item.id}
-              todoInfo={item}
-              isChange={isChange}
-              setIsChange={setIsChange}
-            />
+            <TodoItem key={item.id} todoInfo={item} />
           ))}
         </TodoListWrapper>
       </TodoWrapper>

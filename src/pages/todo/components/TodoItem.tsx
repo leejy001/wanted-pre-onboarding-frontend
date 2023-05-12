@@ -1,18 +1,11 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { TodoItemTypes } from "../../../types/todo";
-import { TodoApi } from "../../../api/todoApi";
-import { HttpClient } from "../../../api/httpClient";
-import { LocalTokenRepository } from "../../../utils/LocalTokenRepository";
-import DefaultButton from "../../../components/DefaultButton";
 import { useTodoState } from "../../../context/TodoProvider";
+import DefaultButton from "../../../components/DefaultButton";
 
-const localTokenRepository = new LocalTokenRepository();
-const httpClient = new HttpClient(localTokenRepository);
-const todoApi = new TodoApi(httpClient);
-
-function TodoItem({ todoInfo, isChange, setIsChange }: TodoItemTypes) {
-  const { update } = useTodoState();
+function TodoItem({ todoInfo }: TodoItemTypes) {
+  const { update, remove } = useTodoState();
   const [todo, setTodo] = useState(todoInfo.todo);
   const [isCompleted, setIsCompleted] = useState(todoInfo.isCompleted);
   const [isEdit, setIsEdit] = useState(false);
@@ -36,9 +29,8 @@ function TodoItem({ todoInfo, isChange, setIsChange }: TodoItemTypes) {
     if (result === "success") setIsEdit(false);
   };
 
-  const deleteTodoClickHandler = async () => {
-    const result = await todoApi.delete(todoInfo.id);
-    if (result === "success") setIsChange(!isChange);
+  const deleteTodoClickHandler = () => {
+    remove(todoInfo.id);
   };
 
   return (

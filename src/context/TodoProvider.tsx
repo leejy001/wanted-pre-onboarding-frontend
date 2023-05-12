@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from "react";
 import { TodoContextType, TodoProviderType } from "../types/context";
 import { TodoInfo } from "../types/todo";
 
@@ -12,13 +18,14 @@ export function TodoProvider({
 }: React.PropsWithChildren<TodoProviderType>) {
   const [todos, setTodos] = useState<TodoInfo[]>([]);
 
+  const getTodo = useCallback(async () => {
+    const result = await todoApi.get();
+    if (result.status === "success") setTodos(result.todos);
+  }, [todoApi]);
+
   useEffect(() => {
-    const getTodos = async () => {
-      const result = await todoApi.get();
-      if (result.status === "success") setTodos(result.todos);
-    };
-    getTodos();
-  }, [todoApi, setTodos]);
+    getTodo();
+  }, [getTodo]);
 
   const create = async (todo: string): Promise<string> => {
     const newTodo = await todoApi.create(todo);
@@ -32,15 +39,17 @@ export function TodoProvider({
     todo: string
   ): Promise<string> => {
     const result = await todoApi.update(id, isCompleted, todo);
-    if (result === "success") {
-      const todo = await todoApi.get();
-      if (todo.status === "success") setTodos(todo.todos);
-    }
+    if (result === "success") getTodo();
     return result;
   };
 
+  const remove = async (id: number) => {
+    const result = await todoApi.delete(id);
+    if (result === "success") getTodo();
+  };
+
   return (
-    <TodoContext.Provider value={{ todos, create, update }}>
+    <TodoContext.Provider value={{ todos, create, update, remove }}>
       {children}
     </TodoContext.Provider>
   );

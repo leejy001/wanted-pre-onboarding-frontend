@@ -24,4 +24,5 @@ export interface TodoContextType {
   todos: TodoInfo[];
   create: (todo: string) => Promise<string>;
   update: (id: number, isCompleted: boolean, todo: string) => Promise<string>;
+  remove: (id: number) => Promise<void>;
 }
