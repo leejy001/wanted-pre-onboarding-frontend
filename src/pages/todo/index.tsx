@@ -4,9 +4,14 @@ import LogoutButton from "./components/LogoutButton";
 import Today from "./components/Today";
 import CreateTodo from "./components/CreateTodo";
 import TodoItem from "./components/TodoItem";
+import { useEffect } from "react";
 
 function Todo() {
-  const { todos } = useTodoState();
+  const { todos, getTodo } = useTodoState();
+
+  useEffect(() => {
+    getTodo();
+  }, [getTodo]);
 
   return (
     <TodoContainer>

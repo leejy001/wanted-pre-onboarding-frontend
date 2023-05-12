@@ -22,6 +22,7 @@ export interface TodoProviderType {
 
 export interface TodoContextType {
   todos: TodoInfo[];
+  getTodo: () => Promise<void>;
   create: (todo: string) => Promise<string>;
   update: (id: number, isCompleted: boolean, todo: string) => Promise<string>;
   remove: (id: number) => Promise<void>;
