@@ -1,7 +1,9 @@
 import { URL } from "../constants";
 import { SignInRequest, SignUpRequest } from "../types/sign";
-import { saveAccessTokenToLocalStorage } from "../utils/accessTokenHandler";
+import { LocalTokenRepository } from "../utils/LocalTokenRepository";
 import { fetchClient } from "./fetchClient";
+
+const localTokenRepository = new LocalTokenRepository();
 
 export const signinApi = async (args: SignInRequest): Promise<string> => {
   const signInRes = await fetchClient(URL.SIGNIN_URL, {
@@ -11,7 +13,7 @@ export const signinApi = async (args: SignInRequest): Promise<string> => {
 
   if (signInRes.ok) {
     const signinResponseData = await signInRes.json();
-    saveAccessTokenToLocalStorage(signinResponseData.access_token);
+    localTokenRepository.save(signinResponseData.access_token);
     return "success";
   }
 

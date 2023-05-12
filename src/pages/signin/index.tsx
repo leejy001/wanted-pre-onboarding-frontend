@@ -6,7 +6,9 @@ import Input from "../../components/Input";
 import Container from "../../components/Container";
 import DefaultButton from "../../components/DefaultButton";
 import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
-import { getAccessTokenFromLocalStorage } from "../../utils/accessTokenHandler";
+import { LocalTokenRepository } from "../../utils/LocalTokenRepository";
+
+const localTokenRepository = new LocalTokenRepository();
 
 function SignIn() {
   const navigate = useNavigate();
@@ -32,7 +34,7 @@ function SignIn() {
   };
 
   useEffect(() => {
-    if (getAccessTokenFromLocalStorage()) {
+    if (localTokenRepository.get()) {
       navigate("/todo", { replace: true });
     }
   }, [navigate]);

@@ -1,11 +1,13 @@
 import { URL } from "../constants";
-import { getAccessTokenFromLocalStorage } from "../utils/accessTokenHandler";
+import { LocalTokenRepository } from "../utils/LocalTokenRepository";
+
+const localTokenRepository = new LocalTokenRepository();
 
 export const fetchClient = async (
   url: string,
   options: RequestInit
 ): Promise<Response> => {
-  const accessToken = getAccessTokenFromLocalStorage();
+  const accessToken = localTokenRepository.get();
   if (accessToken) {
     const newOptions = {
       ...options,

@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import { removeAccessTokenFromLocalStorage } from "../../../utils/accessTokenHandler";
+import { LocalTokenRepository } from "../../../utils/LocalTokenRepository";
 import { useNavigate } from "react-router-dom";
+
+const localTokenRepository = new LocalTokenRepository();
 
 function LogoutButton() {
   const navigate = useNavigate();
 
   const logoutClick = () => {
-    removeAccessTokenFromLocalStorage();
+    localTokenRepository.delete();
     navigate("/");
   };
 

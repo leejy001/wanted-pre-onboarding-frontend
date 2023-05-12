@@ -6,7 +6,9 @@ import styled from "styled-components";
 import DefaultButton from "../../components/DefaultButton";
 import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
 import { useNavigate } from "react-router-dom";
-import { getAccessTokenFromLocalStorage } from "../../utils/accessTokenHandler";
+import { LocalTokenRepository } from "../../utils/LocalTokenRepository";
+
+const localTokenRepository = new LocalTokenRepository();
 
 function SignUp() {
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ function SignUp() {
   };
 
   useEffect(() => {
-    if (getAccessTokenFromLocalStorage()) {
+    if (localTokenRepository.get()) {
       navigate("/todo", { replace: true });
     }
   }, [navigate]);
