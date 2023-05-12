@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { AuthApi } from "../../api/authApi";
-import { HttpClient } from "../../api/httpClient";
 import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
-import { LocalTokenRepository } from "../../utils/LocalTokenRepository";
+import { useAuthState } from "../../context/AuthProvider";
 import Input from "../../components/Input";
 import Container from "../../components/Container";
 import DefaultButton from "../../components/DefaultButton";
 
-const localTokenRepository = new LocalTokenRepository();
-const httpClient = new HttpClient(localTokenRepository);
-const authApi = new AuthApi(httpClient, localTokenRepository);
-
 function SignIn() {
   const navigate = useNavigate();
+  const { signin, isAuth } = useAuthState();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState(false);
 
@@ -32,15 +27,16 @@ function SignIn() {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    const result = await authApi.signin(formData);
+    const result = await signin(formData);
     return result === "success" ? navigate("/todo") : setError(true);
   };
 
   useEffect(() => {
-    if (localTokenRepository.get()) {
+    if (isAuth) {
       navigate("/todo", { replace: true });
+      return;
     }
-  }, [navigate]);
+  }, [isAuth, navigate]);
 
   return (
     <Container title={"로그인"}>
