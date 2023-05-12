@@ -1,5 +1,5 @@
 import { URL } from "../constants";
-import { TodosResult } from "../types/todo";
+import { TodosEditResult, TodosResult } from "../types/todo";
 import { HttpClient } from "./httpClient";
 
 export class TodoApi {
@@ -19,15 +19,16 @@ export class TodoApi {
     return { status: "fail", todos: [] };
   }
 
-  async create(todo: string): Promise<string> {
+  async create(todo: string): Promise<TodosEditResult> {
     const createRes = await this.httpClient.fetch(URL.TODO_URL, {
       method: "POST",
       body: JSON.stringify({ todo })
     });
     if (createRes.ok) {
-      return "success";
+      const createResponseData = await createRes.json();
+      return { status: "success", todo: createResponseData };
     }
-    return "fail";
+    return { status: "fail" };
   }
 
   async update(

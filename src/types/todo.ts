@@ -1,8 +1,3 @@
-export interface CreateTodoTypes {
-  isChange: boolean;
-  setIsChange: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 export interface TodoItemTypes {
   todoInfo: TodoInfo;
   isChange: boolean;
@@ -19,4 +14,9 @@ export interface TodoInfo {
 export interface TodosResult {
   status: string;
   todos: TodoInfo[];
+}
+
+export interface TodosEditResult {
+  status: string;
+  todo?: TodoInfo;
 }

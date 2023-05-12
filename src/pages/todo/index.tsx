@@ -1,30 +1,14 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { TodoInfo } from "../../types/todo";
-import { TodoApi } from "../../api/todoApi";
-import { HttpClient } from "../../api/httpClient";
-import { LocalTokenRepository } from "../../utils/LocalTokenRepository";
+import { useState } from "react";
 import LogoutButton from "./components/LogoutButton";
 import Today from "./components/Today";
 import CreateTodo from "./components/CreateTodo";
 import TodoItem from "./components/TodoItem";
-
-const localTokenRepository = new LocalTokenRepository();
-const httpClient = new HttpClient(localTokenRepository);
-const todoApi = new TodoApi(httpClient);
+import { useTodoState } from "../../context/TodoProvider";
 
 function Todo() {
-  const [todos, setTodos] = useState<TodoInfo[]>([]);
+  const { todos } = useTodoState();
   const [isChange, setIsChange] = useState<boolean>(false);
-
-  const getTodosInfoHandler = async () => {
-    const result = await todoApi.get();
-    if (result.status === "success") setTodos(result.todos);
-  };
-
-  useEffect(() => {
-    getTodosInfoHandler();
-  }, [isChange]);
 
   return (
     <TodoContainer>
@@ -33,7 +17,7 @@ function Todo() {
         <TodoContainerHeader>
           <Today />
         </TodoContainerHeader>
-        <CreateTodo isChange={isChange} setIsChange={setIsChange} />
+        <CreateTodo />
         <TodoListWrapper>
           {todos.map((item) => (
             <TodoItem

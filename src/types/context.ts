@@ -1,6 +1,8 @@
 import { AuthApi } from "../api/authApi";
+import { TodoApi } from "../api/todoApi";
 import { LocalTokenRepository } from "../utils/LocalTokenRepository";
 import { SignInRequest, SignUpRequest } from "./sign";
+import { TodoInfo, TodosEditResult } from "./todo";
 
 export interface AuthProviderType {
   authApi: AuthApi;
@@ -12,4 +14,13 @@ export interface AuthContextType {
   signup: (args: SignUpRequest) => Promise<string>;
   logout: () => void;
   isAuth: boolean;
+}
+
+export interface TodoProviderType {
+  todoApi: TodoApi;
+}
+
+export interface TodoContextType {
+  todos: TodoInfo[];
+  create: (todo: string) => Promise<string>;
 }

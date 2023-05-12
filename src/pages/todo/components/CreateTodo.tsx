@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { CreateTodoTypes } from "../../../types/todo";
-import { TodoApi } from "../../../api/todoApi";
-import { HttpClient } from "../../../api/httpClient";
-import { LocalTokenRepository } from "../../../utils/LocalTokenRepository";
+import { useTodoState } from "../../../context/TodoProvider";
 import DefaultButton from "../../../components/DefaultButton";
 
-const localTokenRepository = new LocalTokenRepository();
-const httpClient = new HttpClient(localTokenRepository);
-const todoApi = new TodoApi(httpClient);
-
-function CreateTodo({ isChange, setIsChange }: CreateTodoTypes) {
+function CreateTodo() {
   const [todo, setTodo] = useState("");
+  const { create } = useTodoState();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value);
@@ -19,11 +13,8 @@ function CreateTodo({ isChange, setIsChange }: CreateTodoTypes) {
 
   const todoSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const result = await todoApi.create(todo);
-    if (result === "success") {
-      setIsChange(!isChange);
-      setTodo("");
-    }
+    const result = await create(todo);
+    if (result === "success") setTodo("");
   };
 
   return (
