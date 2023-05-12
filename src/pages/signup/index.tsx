@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Container from "../../components/Container";
-import { signupApi } from "../../api/sign";
-import Input from "../../components/Input";
-import styled from "styled-components";
-import DefaultButton from "../../components/DefaultButton";
-import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { AuthApi } from "../../api/authApi";
+import { HttpClient } from "../../api/httpClient";
+import { isEmailValidate, isPasswordValidate } from "../../utils/validate";
 import { LocalTokenRepository } from "../../utils/LocalTokenRepository";
+import Container from "../../components/Container";
+import Input from "../../components/Input";
+import DefaultButton from "../../components/DefaultButton";
 
 const localTokenRepository = new LocalTokenRepository();
+const httpClient = new HttpClient(localTokenRepository);
+const authApi = new AuthApi(httpClient, localTokenRepository);
 
 function SignUp() {
   const navigate = useNavigate();
@@ -29,7 +32,7 @@ function SignUp() {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    const result = await signupApi(formData);
+    const result = await authApi.signup(formData);
     return result === "success"
       ? navigate("/signin", { replace: true })
       : setError(true);
