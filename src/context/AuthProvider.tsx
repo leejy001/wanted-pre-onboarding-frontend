@@ -4,8 +4,6 @@ import { AuthContextType, AuthProviderType } from "../types/context";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const useAuth = () => useContext(AuthContext);
-
 export function AuthProvider({
   children,
   authApi,

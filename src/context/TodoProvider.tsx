@@ -1,16 +1,8 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState
-} from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { TodoContextType, TodoProviderType } from "../types/context";
 import { TodoInfo } from "../types/todo";
 
 const TodoContext = createContext<TodoContextType | null>(null);
-
-export const useTodo = () => useContext(TodoContext);
 
 export function TodoProvider({
   children,
